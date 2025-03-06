@@ -7,7 +7,7 @@
 <article>
     <header>
         <h3>Analysis Results</h3>
-        <div class="latency">Response time: {{ .Latency }}ms</div>
+        <small>Response time: {{ .Latency }}ms</small>
     </header>
     <div>
         <table>
@@ -21,11 +21,13 @@
             </tr>
             <tr>
                 <th>Contains PII</th>
-                <td>{{ if .ContainsPII }}Yes{{ else }}No{{ end }}</td>
+                <td>{{ if .ContainsPII }}<span class="warning">Yes</span>{{ else }}<span class="safe">No</span>{{ end }}
+                </td>
             </tr>
             <tr>
                 <th>Suspicious</th>
-                <td>{{ if .IsSuspicious }}Yes{{ else }}No{{ end }}</td>
+                <td>{{ if .IsSuspicious }}<span class="warning">Yes</span>{{ else }}<span class="safe">No</span>{{ end
+                    }}</td>
             </tr>
             <tr>
                 <th>Risk Score</th>

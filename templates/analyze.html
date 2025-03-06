@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,22 +15,18 @@
             margin: 0 auto;
             padding: 20px;
         }
-        .result {
-            background-color: #f8f9fa;
-            border-radius: 5px;
-            padding: 15px;
-            margin-top: 20px;
-            white-space: pre-wrap;
-        }
+
         .hidden {
             display: none;
         }
+
         .provider-select {
             display: flex;
             gap: 20px;
             align-items: center;
             margin-bottom: 20px;
         }
+
         .provider-badge {
             display: inline-block;
             padding: 5px 10px;
@@ -38,19 +35,26 @@
             font-weight: bold;
             color: white;
         }
+
         .provider-badge.available {
             background-color: #2ecc71;
         }
+
         .provider-badge.unavailable {
             background-color: #e74c3c;
         }
-        .latency {
-            font-size: 0.8rem;
-            color: #7f8c8d;
-            margin-top: 5px;
+
+        .warning {
+            color: #cd5c5c;
+            font-weight: bold;
+        }
+
+        .safe {
+            color: #98fb98;
         }
     </style>
 </head>
+
 <body>
     <main class="container">
         <h1>Prompt Analysis Tool</h1>
@@ -76,12 +80,7 @@
             </div>
 
             <label for="prompt">Enter prompt to analyze:</label>
-            <textarea
-                name="prompt"
-                id="prompt"
-                placeholder="Type your prompt here..."
-                rows="5"
-                required></textarea>
+            <textarea name="prompt" id="prompt" placeholder="Type your prompt here..." rows="5" required></textarea>
 
             <button type="submit">
                 Analyze
@@ -94,11 +93,12 @@
 
     <script>
         // Show result div when content is loaded into it
-        document.body.addEventListener('htmx:afterSwap', function(event) {
+        document.body.addEventListener('htmx:afterSwap', function (event) {
             if (event.detail.target.id === 'result') {
                 document.getElementById('result').classList.remove('hidden');
             }
         });
     </script>
 </body>
+
 </html>

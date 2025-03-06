@@ -44,7 +44,7 @@ func NewHandler(cfg *config.Config) *Handler {
 	chatGPTAPI := llm.NewChatGPT(cfg)
 
 	// Load templates
-	templates := template.Must(template.ParseGlob("internal/handler/templates/*.html"))
+	templates := template.Must(template.ParseGlob("templates/*.html"))
 
 	// Define routes
 	routes := Routes{
@@ -73,7 +73,7 @@ func (h *Handler) RegisterRoutes() {
 	// Register API endpoints
 	http.HandleFunc(h.routes.Claude, h.ClaudeHandler())
 	http.HandleFunc(h.routes.ChatGPT, h.ChatGPTHandler())
-	
+
 	// Demo UI (only if enabled in config)
 	if h.config.Server.DemoUI {
 		http.HandleFunc(h.routes.Demo, h.HandleDemoUI())
@@ -86,7 +86,7 @@ func (h *Handler) StartServer() error {
 	// Get server address
 	serverAddr := fmt.Sprintf(":%s", h.config.Server.Port)
 	baseURL := fmt.Sprintf("http://localhost%s", serverAddr)
-	
+
 	// Log server information
 	log.Printf("Starting server on %s...\n", serverAddr)
 	log.Printf("Claude API available: %v", h.claudeAPI.IsAvailable())
@@ -98,8 +98,9 @@ func (h *Handler) StartServer() error {
 	if h.config.Server.DemoUI {
 		log.Printf("  - Demo UI: %s%s", baseURL, h.routes.Demo)
 	}
-	
-	// Start the server
+
+	// Start the server - this will block until the server is stopped
+	log.Printf("Server is now listening on %s\n", serverAddr)
 	return http.ListenAndServe(serverAddr, nil)
 }
 
