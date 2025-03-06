@@ -19,6 +19,9 @@ A Go application that exposes API endpoints to analyze potential LLM prompts usi
 .
 ├── config
 │   └── config.go       # Configuration loading and management
+├── internal
+│   └── handler
+│       └── handler.go  # HTTP handlers for API endpoints
 ├── llm
 │   ├── llm.go          # LLM interface definition
 │   ├── claude.go       # Claude implementation
@@ -90,7 +93,8 @@ The server will start on port 8080 by default (configurable in `config.yaml`).
   "promptType": "coding",
   "containsPII": false,
   "isSuspicious": false,
-  "riskScore": 2
+  "riskScore": 2,
+  "latency": 1250
 }
 ```
 
@@ -114,7 +118,8 @@ The server will start on port 8080 by default (configurable in `config.yaml`).
   "promptType": "research",
   "containsPII": false,
   "isSuspicious": false,
-  "riskScore": 1
+  "riskScore": 1,
+  "latency": 890
 }
 ```
 

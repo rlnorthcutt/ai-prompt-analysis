@@ -2,7 +2,10 @@ module github.com/rlnorthcutt/ai-prompt-analysis
 
 go 1.24.1
 
-require github.com/spf13/viper v1.19.0
+require (
+	github.com/joho/godotenv v1.5.1
+	github.com/spf13/viper v1.19.0
+)
 
 require (
 	github.com/fsnotify/fsnotify v1.7.0 // indirect

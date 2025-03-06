@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompt Analysis Tool</title>
+    <!-- PicoCSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@1.9.3"></script>
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .result {
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 20px;
+            white-space: pre-wrap;
+        }
+        .hidden {
+            display: none;
+        }
+        .provider-select {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .provider-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: white;
+        }
+        .provider-badge.available {
+            background-color: #2ecc71;
+        }
+        .provider-badge.unavailable {
+            background-color: #e74c3c;
+        }
+        .latency {
+            font-size: 0.8rem;
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <main class="container">
+        <h1>Prompt Analysis Tool</h1>
+        <p>Analyze potential LLM prompts for token count, type, PII, and more.</p>
+
+        <form hx-post="/analyze/submit" hx-target="#result" hx-indicator="#spinner">
+            <div class="provider-select">
+                <label for="provider">Provider:</label>
+                {{if and .ClaudeAvailable .ChatGPTAvailable}}
+                <select name="provider" id="provider">
+                    <option value="claude">Claude</option>
+                    <option value="chatgpt">ChatGPT</option>
+                </select>
+                {{else if .ClaudeAvailable}}
+                <input type="hidden" name="provider" value="claude">
+                <span class="provider-badge available">Claude Available</span>
+                {{else if .ChatGPTAvailable}}
+                <input type="hidden" name="provider" value="chatgpt">
+                <span class="provider-badge available">ChatGPT Available</span>
+                {{else}}
+                <span class="provider-badge unavailable">No LLM Providers Available</span>
+                {{end}}
+            </div>
+
+            <label for="prompt">Enter prompt to analyze:</label>
+            <textarea
+                name="prompt"
+                id="prompt"
+                placeholder="Type your prompt here..."
+                rows="5"
+                required></textarea>
+
+            <button type="submit">
+                Analyze
+                <span id="spinner" class="htmx-indicator">⏳</span>
+            </button>
+        </form>
+
+        <div id="result" class="hidden result"></div>
+    </main>
+
+    <script>
+        // Show result div when content is loaded into it
+        document.body.addEventListener('htmx:afterSwap', function(event) {
+            if (event.detail.target.id === 'result') {
+                document.getElementById('result').classList.remove('hidden');
+            }
+        });
+    </script>
+</body>
+</html>

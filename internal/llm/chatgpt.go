@@ -8,8 +8,8 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/rlnorthcutt/ai-prompt-analysis/config"
-	"github.com/rlnorthcutt/ai-prompt-analysis/prompt"
+	"github.com/rlnorthcutt/ai-prompt-analysis/internal/config"
+	"github.com/rlnorthcutt/ai-prompt-analysis/internal/prompt"
 )
 
 // ChatGPT implements the LLM interface for OpenAI's ChatGPT API

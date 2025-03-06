@@ -10,7 +10,8 @@ import (
 // Config holds application configuration
 type Config struct {
 	Server struct {
-		Port string `mapstructure:"port"`
+		Port   string `mapstructure:"port"`
+		DemoUI bool   `mapstructure:"demoui"`
 	} `mapstructure:"server"`
 
 	Claude struct {
