@@ -1,0 +1,32 @@
+server:
+  port: 8080
+
+claude:
+  api_url: "https://api.anthropic.com/v1/messages"
+  model_id: "claude-3-haiku-20240307"
+  max_tokens: 1024
+  temperature: 0.0
+  version: "2023-06-01"
+
+chatgpt:
+  api_url: "https://api.openai.com/v1/chat/completions"
+  model_id: "gpt-4o"
+  max_tokens: 1024
+  temperature: 0.0
+
+analysis:
+  system_prompt: |
+    You are a prompt analysis assistant. Analyze the provided prompt for:
+    1. Token count (estimated)
+    2. Type categorization (coding, research, content, jailbreak, threat)
+    3. Whether it contains PII (true/false)
+    4. Whether it appears to be a jailbreak attempt (true/false)
+    5. A risk assessment score from 1-10 where 10 is high risk
+    Output in JSON format only, no additional text. Use this format:
+    {
+      "tokenCount": 123,
+      "promptType": "coding",
+      "containsPII": false,
+      "isSuspicious": false,
+      "riskScore": 2
+    }
