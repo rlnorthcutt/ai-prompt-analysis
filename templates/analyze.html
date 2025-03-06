@@ -47,18 +47,16 @@
             color: #98fb98;
         }
 
-        .htmx-swapping {
+        .fade-in {
             opacity: 0;
-            transition: opacity 0.3s ease-in;
-        }
-
-        #result.htmx-added {
-            opacity: 0;
-        }
-
-        #result {
+            transition: opacity 0.5s ease-in-out;
             opacity: 1;
-            transition: opacity 0.3s ease-out;
+        }
+
+        .fade-out {
+            opacity: 1;
+            transition: opacity 0.5s ease-in-out;
+            opacity: 0;
         }
     </style>
 </head>
@@ -68,8 +66,8 @@
         <h1>Prompt Analysis Tool</h1>
         <p>Analyze potential LLM prompts for token count, type, PII, and more.</p>
 
-        <form hx-post="/analyze/submit" hx-target="#result" hx-indicator="#spinner"
-            hx-swap="outerHTML transition:true settle:0.3s">
+        <form hx-post="/analyze/submit" hx-target="#result" hx-indicator="#spinner" hx-swap="outerHTML transition:true"
+            htmx-onsettle="document.getElementById('result').classList.replace('fade-out','fade-in')">
             <div class="provider-select">
                 <label for="provider">Provider:</label>
                 {{if and .ClaudeAvailable .ChatGPTAvailable}}
@@ -91,13 +89,13 @@
             <label for="prompt">Enter prompt to analyze:</label>
             <textarea name="prompt" id="prompt" placeholder="Type your prompt here..." rows="5" required></textarea>
 
-            <button type="submit">
+            <button type="submit" onclick="document.getElementById('result').classList.replace('fade-in','fade-out')">
                 Analyze
                 <span id="spinner" class="htmx-indicator">⏳</span>
             </button>
         </form>
 
-        <div id="result"></div>
+        <div id="result" class="fade-in"></div>
     </main>
 </body>
 
