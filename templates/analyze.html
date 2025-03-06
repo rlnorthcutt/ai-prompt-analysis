@@ -5,19 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prompt Analysis Tool</title>
-    <!-- PicoCSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
-    <!-- HTMX -->
     <script src="https://unpkg.com/htmx.org@1.9.3"></script>
     <style>
         .container {
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
-        }
-
-        .hidden {
-            display: none;
         }
 
         .provider-select {
@@ -52,6 +46,20 @@
         .safe {
             color: #98fb98;
         }
+
+        .htmx-swapping {
+            opacity: 0;
+            transition: opacity 0.3s ease-in;
+        }
+
+        #result.htmx-added {
+            opacity: 0;
+        }
+
+        #result {
+            opacity: 1;
+            transition: opacity 0.3s ease-out;
+        }
     </style>
 </head>
 
@@ -60,13 +68,14 @@
         <h1>Prompt Analysis Tool</h1>
         <p>Analyze potential LLM prompts for token count, type, PII, and more.</p>
 
-        <form hx-post="/analyze/submit" hx-target="#result" hx-indicator="#spinner">
+        <form hx-post="/analyze/submit" hx-target="#result" hx-indicator="#spinner"
+            hx-swap="outerHTML transition:true settle:0.3s">
             <div class="provider-select">
                 <label for="provider">Provider:</label>
                 {{if and .ClaudeAvailable .ChatGPTAvailable}}
                 <select name="provider" id="provider">
-                    <option value="claude">Claude</option>
                     <option value="chatgpt">ChatGPT</option>
+                    <option value="claude">Claude</option>
                 </select>
                 {{else if .ClaudeAvailable}}
                 <input type="hidden" name="provider" value="claude">
@@ -88,17 +97,8 @@
             </button>
         </form>
 
-        <div id="result" class="hidden result"></div>
+        <div id="result"></div>
     </main>
-
-    <script>
-        // Show result div when content is loaded into it
-        document.body.addEventListener('htmx:afterSwap', function (event) {
-            if (event.detail.target.id === 'result') {
-                document.getElementById('result').classList.remove('hidden');
-            }
-        });
-    </script>
 </body>
 
 </html>

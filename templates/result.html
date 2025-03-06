@@ -1,48 +1,52 @@
 {{ if .Error }}
-<div class="error">
-    <h3>Error</h3>
-    <p>{{ .Error }}</p>
+<div id="result">
+    <div class="error">
+        <h3>Error</h3>
+        <p>{{ .Error }}</p>
+    </div>
 </div>
 {{ else }}
-<article>
-    <header>
-        <h3>Analysis Results</h3>
-        <small>Response time: {{ .Latency }}ms</small>
-    </header>
-    <div>
-        <table>
-            <tr>
-                <th>Token Count</th>
-                <td>{{ .TokenCount }}</td>
-            </tr>
-            <tr>
-                <th>Prompt Type</th>
-                <td>{{ .PromptType }}</td>
-            </tr>
-            <tr>
-                <th>Contains PII</th>
-                <td>{{ if .ContainsPII }}<span class="warning">Yes</span>{{ else }}<span class="safe">No</span>{{ end }}
-                </td>
-            </tr>
-            <tr>
-                <th>Suspicious</th>
-                <td>{{ if .IsSuspicious }}<span class="warning">Yes</span>{{ else }}<span class="safe">No</span>{{ end
-                    }}</td>
-            </tr>
-            <tr>
-                <th>Risk Score</th>
-                <td>
-                    <progress value="{{ .RiskScore }}" max="10"></progress>
-                    <span>{{ .RiskScore }}/10</span>
-                </td>
-            </tr>
-        </table>
-    </div>
-    <footer>
-        <details>
-            <summary>Raw JSON</summary>
-            <pre>{{ .RawJSON }}</pre>
-        </details>
-    </footer>
-</article>
+<div id="result">
+    <article>
+        <header>
+            <h3>Analysis Results</h3>
+            <div class="latency">Response time: {{ .Latency }}ms</div>
+        </header>
+        <div>
+            <table>
+                <tr>
+                    <th>Token Count</th>
+                    <td>{{ .TokenCount }}</td>
+                </tr>
+                <tr>
+                    <th>Prompt Type</th>
+                    <td>{{ .PromptType }}</td>
+                </tr>
+                <tr>
+                    <th>Contains PII</th>
+                    <td>{{ if .ContainsPII }}<span class="warning">Yes</span>{{ else }}<span class="safe">No</span>{{
+                        end }}</td>
+                </tr>
+                <tr>
+                    <th>Suspicious</th>
+                    <td>{{ if .IsSuspicious }}<span class="warning">Yes</span>{{ else }}<span class="safe">No</span>{{
+                        end }}</td>
+                </tr>
+                <tr>
+                    <th>Risk Score</th>
+                    <td>
+                        <progress value="{{ .RiskScore }}" max="10"></progress>
+                        <span>{{ .RiskScore }}/10</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <footer>
+            <details>
+                <summary>Raw JSON</summary>
+                <pre>{{ .RawJSON }}</pre>
+            </details>
+        </footer>
+    </article>
+</div>
 {{ end }}
